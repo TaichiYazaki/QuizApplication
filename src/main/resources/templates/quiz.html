@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<title>○×クイズアプリ</title>
+</head>
+
+
+	<h1>○×クイズアプリ</h1>
+	<h3 th:text="${title}">タイトル</h3>
+	<form th:action="${quizForm.newQuiz}? @{/quiz/insert} : @{/quiz/update}" th:object="${quizForm}" method="POST">
+	   <input th:if="${id}" type="hidden" th:field="*{id}">
+		<label>クイズの内容</label><br>
+		<textarea rows="5" cols="50" th:field="*{question}"></textarea><br>
+		<label>クイズの解答</label><br>
+		<input type="radio" value="true" th:field="*{answer}">「○」
+		<input type="radio" value="true" th:field="*{answer}">「×」<br>
+		<label>作成者</label><br>
+		<input type="text" th:field="*{author}"><br>
+		<input type="submit" value="送信">
+	</form><hr>
+	<!-------------------------------------　ここまで上部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
+    <!-------------------------------------　ここから下部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
+　 　<!--▼▼▼　新規登録時のみ表示　▼▼▼-->
+	<div th:if="${quizForm.newQuiz}" style="margin: 10px">
+	<h3>登録クイズ一覧：<a th:href="@{quiz/play}">プレイ</a><br></h3>
+	　　　　　　　　　　　　　　　　　　　　
+	<!-- 削除完了コメント-->
+	<p th:if="${delcomplete}" th:text="${delcomplete}" style="color: blue"></p>
+	<p th:if="${msg}" th:text="${msg}" style="color: red;"></p>
+
+	<!--▼▼▼　クイズ情報が１件でもあれば表示　▼▼▼-->
+	<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
+		<tr>
+			<th>内容</th>
+			<th>解答</th>
+			<th>作成者</th>
+			<th>編集</th>
+			<th>削除</th>
+		</tr>
+		<tr th:each="obj : ${list}" align="center">
+			<td th:text="${obj.question}" align="left"></td>
+			<td th:text="${obj.answer} == true?'○':'×'"></td>
+			<td th:text="${obj.author}"></td>
+			<!--編集ボタン-->
+			<td>
+				<form th:action="@{/quiz/detail?id=}+${obj.id}" method="POST">
+				<input type="submit" value="編集">				
+				</form>
+			</td>
+			<!--削除ボタン-->
+			<td>
+				<form method="POST" th:action="@{/quiz/delete}">
+					<input type="hidden" name="id" th:value="${obj.id}">
+					<input type="submit" value="削除">
+				</form>
+			</td>
+		</tr>
+	</table>
+	</div>
+	<!--△△△　クイズ情報が１件でもあれば表示 △△△-->
+
+	<!--▼▼▼　クイズ情報が１件もない場合表示 ▼▼▼-->
+	<p th:if="${#lists.isEmpty(list)}">登録されているクイズはありません</p>
+	<!--△△△　クイズ情報が１件もない場合表示　△△△-->
+
+	<!--▼▼▼　新規登録時でない時に表示 ▼▼▼-->
+	<p th:unless="${quizForm.newQuiz}">
+		<a th:href="@{/quiz/list}">メイン画面へ戻る</a>
+	</p>
+	<!--△△△　新規登録時出ない時に表示 △△△-->
+
+
+	</body>
+
+</html>
