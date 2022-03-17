@@ -50,4 +50,21 @@ public class QuizService {
 	public void delete(Integer id) {
 		quizRepository.delete(id);
 	}
+	
+	/*
+	 * クイズをランダムで１件取得
+	 */
+	public List<Quiz> random(){
+		return quizRepository.random();
+	}
+	
+	public Boolean check(Integer id, Boolean myAnswer) {
+		Boolean check = false;
+		Quiz checkQuiz = quizRepository.load(id);
+		if(checkQuiz.getAnswer().equals(myAnswer)) {
+			check = true;
+		}
+		return check;
+	}
+	
 }

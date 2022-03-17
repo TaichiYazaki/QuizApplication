@@ -6,7 +6,6 @@
 	<title>○×クイズアプリ</title>
 </head>
 
-
 	<h1>○×クイズアプリ</h1>
 	<h3 th:text="${title}">タイトル</h3>
 	<form th:action="${quizForm.newQuiz}? @{/quiz/insert} : @{/quiz/update}" th:object="${quizForm}" method="POST">
@@ -15,7 +14,7 @@
 		<textarea rows="5" cols="50" th:field="*{question}"></textarea><br>
 		<label>クイズの解答</label><br>
 		<input type="radio" value="true" th:field="*{answer}">「○」
-		<input type="radio" value="true" th:field="*{answer}">「×」<br>
+		<input type="radio" value="false" th:field="*{answer}">「×」<br>
 		<label>作成者</label><br>
 		<input type="text" th:field="*{author}"><br>
 		<input type="submit" value="送信">
@@ -24,7 +23,7 @@
     <!-------------------------------------　ここから下部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
 　 　<!--▼▼▼　新規登録時のみ表示　▼▼▼-->
 	<div th:if="${quizForm.newQuiz}" style="margin: 10px">
-	<h3>登録クイズ一覧：<a th:href="@{quiz/play}">プレイ</a><br></h3>
+	<h3>登録クイズ一覧：<a th:href="@{/quiz/play}">プレイ</a><br></h3>
 	　　　　　　　　　　　　　　　　　　　　
 	<!-- 削除完了コメント-->
 	<p th:if="${delcomplete}" th:text="${delcomplete}" style="color: blue"></p>

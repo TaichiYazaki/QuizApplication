@@ -74,7 +74,7 @@ public class QuizController {
 		quiz.setQuestion(form.getQuestion());
 		quiz.setAnswer(form.getAnswer());
 		quiz.setAuthor(form.getAuthor());
-		System.out.println(quiz);
+		
 		quizService.update(quiz);
 		return "redirect:/quiz/list";
 	}
@@ -86,6 +86,26 @@ public class QuizController {
 	public String delete(String id) {
 		quizService.delete(Integer.parseInt(id));
 		return "redirect:/quiz/list";
-
+	}
+	
+	/*
+	 * クイズをランダムで取得
+	 */
+	@RequestMapping("/play")
+	public String showRandom(Model model) {
+		List<Quiz> random =quizService.random();
+		model.addAttribute("random",random);
+		return "play";
+	}
+	
+	@RequestMapping("/check")
+	public String check(QuizForm form, Model model, Boolean answer) {
+		System.out.println(form);
+		if(quizService.check(form.getId(), answer)) {
+			model.addAttribute("msg", "True!!!");
+		}else {
+			model.addAttribute("msg", "False・・・");
+		}
+		return "answer";
 	}
 }

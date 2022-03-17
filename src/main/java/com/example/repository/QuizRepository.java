@@ -77,4 +77,13 @@ public class QuizRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(deleteSql, param);
 	}
+	
+	/*
+	 * ランダムでクイズを取得
+	 */
+	public List<Quiz> random() {
+		String randSql = "SELECT * FROM quiz ORDER BY RANDOM() LIMIT 1";
+		List<Quiz> quiz = template.query(randSql, QUIZ_ROW_MAPPER);
+		return quiz;
+	}
 }

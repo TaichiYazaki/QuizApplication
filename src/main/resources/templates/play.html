@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>「○×クイズ」アプリ：PLAY</title>
+</head>
+
+<body>
+	<h1>「○×クイズ」アプリ：PLAY</h1>
+	<h3>クイズ</h3>
+	<th:block th:if="${msg}" style="color: red;">
+		<p th:text="${msg}" style="color: red;"></p>
+		<a th:href="${/quiz/list}">メイン画面へ</a>
+	</th:block>
+
+	<th:block th:unless="${msg}">
+
+		<div th:each="rand: ${random}">
+			【Question】:
+			<span th:text="${rand.question}">クイズ内容</span>
+			<br>
+			【Author】　:
+			<span th:text="${rand.author}">作成者</span>
+			<br>
+		
+		<form th:action="@{/quiz/check?id=}+${rand.id}" method="POST">
+			<button name="answer" value="true">○</button>
+			<button name="answer" value="false">×</button>
+		</form>
+		</div>
+	</th:block>
+</body>
+
+</html>
