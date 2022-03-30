@@ -7,6 +7,7 @@ public class QuizForm {
 	private Boolean answer;
 	private String author;
 	private Boolean newQuiz;
+	private Integer administratorId;
 	public Integer getId() {
 		return id;
 	}
@@ -37,9 +38,17 @@ public class QuizForm {
 	public void setNewQuiz(Boolean newQuiz) {
 		this.newQuiz = newQuiz;
 	}
+	public Integer getAdministratorId() {
+		return administratorId;
+	}
+	public void setAdministratorId(Integer administratorId) {
+		this.administratorId = administratorId;
+	}
 	@Override
 	public String toString() {
 		return "QuizForm [id=" + id + ", question=" + question + ", answer=" + answer + ", author=" + author
-				+ ", newQuiz=" + newQuiz + "]";
+				+ ", newQuiz=" + newQuiz + ", administratorId=" + administratorId + "]";
 	}
+	
+	
 }

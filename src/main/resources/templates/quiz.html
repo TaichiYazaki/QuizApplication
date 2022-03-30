@@ -3,74 +3,110 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>○×クイズアプリ</title>
+	<title>○×Quiz</title>
 </head>
 
-	<h1>○×クイズアプリ</h1>
-	<h3 th:text="${title}">タイトル</h3>
-	<form th:action="${quizForm.newQuiz}? @{/quiz/insert} : @{/quiz/update}" th:object="${quizForm}" method="POST">
-	   <input th:if="${id}" type="hidden" th:field="*{id}">
-		<label>クイズの内容</label><br>
-		<textarea rows="5" cols="50" th:field="*{question}"></textarea><br>
-		<label>クイズの解答</label><br>
-		<input type="radio" value="true" th:field="*{answer}">「○」
-		<input type="radio" value="false" th:field="*{answer}">「×」<br>
-		<label>作成者</label><br>
-		<input type="text" th:field="*{author}"><br>
-		<input type="submit" value="送信">
-	</form><hr>
-	<!-------------------------------------　ここまで上部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
+<h1>○×Quiz</h1>
+<h4 th:text="'Hello!△'+${session.session.name}+'△'"style="color: orange;"></h4>
+<h3 th:text="${title}">タイトル</h3>
+<span th:text="${PleaseFillInTheBlanks}" style=color:red>msg</span>
+<form th:action="${quizForm.newQuiz}? @{/quiz/insert?id=}+${id} : @{/quiz/update}" th:object="${quizForm}"
+	method="POST">
+	<input th:if="${id}" type="hidden" th:field="*{id}">
+	<label>Question:</label><br>
+	<textarea rows="5" cols="50" th:field="*{question}"></textarea><br>
+	<label>Answer:</label><br>
+	<input type="radio" value="true" th:field="*{answer}">「○」
+	<input type="radio" value="false" th:field="*{answer}">「×」<br>
+	<label>Author:</label><br>
+	<input type="text" th:field="*{author}"><br>
+	<input type="submit" value="submit">
+</form>
+<hr>
+<!--更新用のクイズを表示する詳細画面
+<div thif="${title.equals('Update Form')}">
+	Question:
+	<span th:text="${myList.question}"></span><br>
+	Answer:
+	<span th:if="${myList.answer == true}">
+		<span>「○」</span>
+	</span>
+	<span th:if="${myList.answer == false}">
+		<span>「×」</span>
+	</span><br>
+	Author:
+	<span th:text="${myList.author}"></span>
+</div>-->
+<!-------------------------------------　ここまで上部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
     <!-------------------------------------　ここから下部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
 　 　<!--▼▼▼　新規登録時のみ表示　▼▼▼-->
-	<div th:if="${quizForm.newQuiz}" style="margin: 10px">
-	<h3>登録クイズ一覧：<a th:href="@{/quiz/play}">プレイ</a><br></h3>
-	　　　　　　　　　　　　　　　　　　　　
+<div th:if="${quizForm.newQuiz}" style="margin: 10px">
+
+	<!--ゲーム開始ボタン-->
+	<form th:action="@{/quiz/play?id=}+${id}" th:object=${registerForm}>
+		<strong> Challenge： </strong>
+		<input type="hidden" th:field="*{id}">
+		<input type="submit" value="Play">
+	</form>
+
+	　　　　　　　　　　　　
 	<!-- 削除完了コメント-->
 	<p th:if="${delcomplete}" th:text="${delcomplete}" style="color: blue"></p>
 	<p th:if="${msg}" th:text="${msg}" style="color: red;"></p>
 
-	<!--▼▼▼　クイズ情報が１件でもあれば表示　▼▼▼-->
-	<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
+	<h3 th:unless="${#lists.isEmpty(myList)}">My Lists:</h3>
+	<table border="1" th:unless="${#lists.isEmpty(myList)}" style="table-layout: fixed;">
 		<tr>
-			<th>内容</th>
-			<th>解答</th>
-			<th>作成者</th>
-			<th>編集</th>
-			<th>削除</th>
+			<th>Question</th>
+			<th>Answer</th>
+			<th>Author</th>
+			<th>Edit</th>
+			<th>Delete</th>
 		</tr>
-		<tr th:each="obj : ${list}" align="center">
+		<tr th:each="obj : ${myList}" align="center">
 			<td th:text="${obj.question}" align="left"></td>
 			<td th:text="${obj.answer} == true?'○':'×'"></td>
 			<td th:text="${obj.author}"></td>
+
 			<!--編集ボタン-->
 			<td>
 				<form th:action="@{/quiz/detail?id=}+${obj.id}" method="POST">
-				<input type="submit" value="編集">				
+					<input type="submit" value="edit">
 				</form>
 			</td>
+
 			<!--削除ボタン-->
+
 			<td>
-				<form method="POST" th:action="@{/quiz/delete}">
-					<input type="hidden" name="id" th:value="${obj.id}">
-					<input type="submit" value="削除">
+				<form method="POST" th:action="@{/quiz/delete?id=}+${obj.id}">
+					<input type="submit" value="delete">
 				</form>
 			</td>
 		</tr>
 	</table>
-	</div>
-	<!--△△△　クイズ情報が１件でもあれば表示 △△△-->
-
-	<!--▼▼▼　クイズ情報が１件もない場合表示 ▼▼▼-->
-	<p th:if="${#lists.isEmpty(list)}">登録されているクイズはありません</p>
-	<!--△△△　クイズ情報が１件もない場合表示　△△△-->
-
-	<!--▼▼▼　新規登録時でない時に表示 ▼▼▼-->
-	<p th:unless="${quizForm.newQuiz}">
-		<a th:href="@{/quiz/list}">メイン画面へ戻る</a>
-	</p>
-	<!--△△△　新規登録時出ない時に表示 △△△-->
+</div>
 
 
-	</body>
+
+<form th:action="@{/quiz/list?=id}+${id}" th:object=${registerForm}>
+	<strong> All Lists： </strong>
+	<input type="hidden" th:field="*{id}">
+	<input type="submit" value="Click Here">
+</form>
+
+
+<!--△△△　クイズ情報が１件でもあれば表示 △△△-->
+
+<!--▼▼▼　クイズ情報が１件もない場合表示 ▼▼▼-->
+<p th:if="${#lists.isEmpty(myList)}">登録されているクイズはありません</p>
+<!--△△△　クイズ情報が１件もない場合表示　△△△-->
+
+<!--▼▼▼　新規登録時でない時に表示 ▼▼▼-->
+<h3 th:unless="${quizForm.newQuiz}">
+Main Menu:<a th:href="@{/quiz/myList?id=}+${session.session.id}">Click here</a>
+</h3>
+<!--△△△　新規登録時出ない時に表示 △△△-->
+
+</body>
 
 </html>

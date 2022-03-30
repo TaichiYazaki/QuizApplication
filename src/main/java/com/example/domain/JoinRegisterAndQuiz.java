@@ -1,8 +1,12 @@
 package com.example.domain;
 
-public class Quiz {
+public class JoinRegisterAndQuiz {
 
 	private Integer id;
+	private String name;
+	private String email;
+	private String password;
+	
 	private String 	question;
 	private Boolean answer;
 	private String author;
@@ -12,6 +16,24 @@ public class Quiz {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getQuestion() {
 		return question;
@@ -39,9 +61,11 @@ public class Quiz {
 	}
 	@Override
 	public String toString() {
-		return "Quiz [id=" + id + ", question=" + question + ", answer=" + answer + ", author=" + author
-				+ ", administratorId=" + administratorId + "]";
+		return "JoinRegisterAndQuiz [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
+				+ ", question=" + question + ", answer=" + answer + ", author=" + author + ", administratorId="
+				+ administratorId + "]";
 	}
+	
 	
 	
 }

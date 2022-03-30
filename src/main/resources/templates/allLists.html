@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<title>○×Quiz</title>
+</head>
+
+<body>
+	<h1>○×Quiz</h1>
+	<h3>All Lists</h3>
+	<!-------------------------------------　ここまで上部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
+    <!-------------------------------------　ここから下部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
+　 　<!--▼▼▼　新規登録時のみ表示　▼▼▼-->
+	<div th:if="${quizForm.newQuiz}" style="margin: 10px">
+
+		　　　　　　　　　　　　　　　　　　　　
+		<!-- 削除完了コメント-->
+		<p th:if="${delcomplete}" th:text="${delcomplete}" style="color: blue"></p>
+		<p th:if="${msg}" th:text="${msg}" style="color: red;"></p>
+
+		<!--▼▼▼　クイズ情報が１件でもあれば表示　▼▼▼-->
+		<table border="1" th:unless="${#lists.isEmpty(list)}" style="table-layout: fixed;">
+			<tr>
+				<th>Question</th>
+				<th>Answer</th>
+				<th>Author</th>
+			</tr>
+			<tr th:each="obj : ${list}" align="center">
+				<td th:text="${obj.question}" align="left"></td>
+				<td th:text="${obj.answer} == true?'○':'×'"></td>
+				<td th:text="${obj.author}"></td>
+			</tr>
+		</table>
+	</div>
+	<form th:action="@{/quiz/play?id=}+${id}" th:object=${registerForm}>
+		<strong> Challenge： </strong>
+		<input type="hidden" th:field="*{id}">
+		<input type="submit" value="Play">
+	</form>
+	<h3>Main menu：<a th:href="@{/quiz/myList?id=}+${id}">Click here</a><br></h3>
+	<!--△△△　クイズ情報が１件でもあれば表示 △△△-->
+
+	<!--▼▼▼　クイズ情報が１件もない場合表示 ▼▼▼-->
+	<p th:if="${#lists.isEmpty(list)}">登録されているクイズはありません</p>
+	<!--△△△　クイズ情報が１件もない場合表示　△△△-->
+
+	<!--▼▼▼　新規登録時でない時に表示 ▼▼▼-->
+	<h3 th:unless="${quizForm.newQuiz}">
+		Main menu:<a th:href="@{/quiz/myList?id=}+${session.session.id}">Click here</a>
+	</h3>
+
+	<!--△△△　新規登録時出ない時に表示 △△△-->
+
+</body>
+
+</html>

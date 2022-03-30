@@ -24,10 +24,17 @@ public class QuizService {
 	}
 
 	/*
-	 * クイズの一覧表示
+	 * クイズの一覧の表示(全件)
 	 */
 	public List<Quiz> list() {
 		return quizRepository.list();
+	}
+	
+	/*
+	 * クイズ一覧の表示(自分が投稿したクイズのみ)
+	 */
+	public List<Quiz> myList(Integer id){
+		return quizRepository.myList(id);
 	}
 
 	/*
