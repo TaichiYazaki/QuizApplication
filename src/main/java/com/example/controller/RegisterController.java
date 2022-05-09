@@ -121,8 +121,7 @@ public class RegisterController {
 		String duplicateMessage = null;
 		if (confirmPassword.equals(password)) {
 			duplicateMessage = "Collect Password!";
-		} 
-		else {
+		} else {
 			duplicateMessage = "It doesn't match password...";
 
 		}
