@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<title>「○×」Quiz：Register</title>
+</head>
+
+<body>
+	<h1>「「○×」Quiz：Register</h1>
+	<form th:action="@{/administrator/insert}" th:object="${registerForm}" method="POST">
+		name:<br>
+		<input type="text" th:field="*{name}"><br>
+		email:<br>
+		<input type="text" th:field="*{email}"><br>
+		password:<br>
+		<input type="password" th:field="*{password}" id="password"><br>
+		confirmPassword:<br>
+		<input type="password" id="password"><br>
+		<button type="submit">register</button>
+	</form>
+	<a th:href="@{/administrator/login}">login</a>
+	<script th:src="@{/jquery-3.6.0.min}"></script>
+	<script th:src="@{/register.js}"></script>
+</body>
+
+</html>

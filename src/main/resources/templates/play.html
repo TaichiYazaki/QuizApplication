@@ -3,15 +3,14 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>「○×クイズ」アプリ：PLAY</title>
+	<title>「○×」Quiz：PLAY</title>
 </head>
 
 <body>
-	<h1>「○×クイズ」アプリ：PLAY</h1>
-	<h3>クイズ</h3>
+	<h1>「○×」Quiz：PLAY</h1>
 	<th:block th:if="${msg}" style="color: red;">
 		<p th:text="${msg}" style="color: red;"></p>
-		<a th:href="${/quiz/list}">メイン画面へ</a>
+		<a th:href="${/quiz/list}">Return Main</a>
 	</th:block>
 
 	<th:block th:unless="${msg}">
@@ -23,8 +22,13 @@
 			【Author】　:
 			<span th:text="${rand.author}">作成者</span>
 			<br>
-		
-		<form th:action="@{/quiz/check?id=}+${rand.id}" method="POST">
+	
+		<!--<form th:action="@{/quiz/check?id=}+${id}" th:object="${registerForm}" method="POST">
+			<span th:text="${id}"></span>
+			<button name="answer" value="true">○</button>
+			<button name="answer" value="false">×</button>
+			<input type="hidden" th:field="*{id}">-->
+			<form th:action="@{/quiz/check?id=}+${rand.id}" th:object="${registerForm}" method="POST">
 			<button name="answer" value="true">○</button>
 			<button name="answer" value="false">×</button>
 		</form>

@@ -27,6 +27,7 @@ public class QuizRepository {
 		quiz.setQuestion(rs.getString("question"));
 		quiz.setAnswer(rs.getBoolean("answer"));
 		quiz.setAuthor(rs.getString("author"));
+		quiz.setAdministratorId(rs.getInt("administrator_id"));
 		return quiz;
 	};
 
@@ -35,19 +36,36 @@ public class QuizRepository {
 	 */
 	public void insert(Quiz quiz) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(quiz);
-		String insertSql = "INSERT INTO quiz(question, answer, author) VALUES(:question, :answer, :author)";
-		System.out.println(insertSql);
+		String insertSql = "INSERT INTO quiz(question, answer, author, administrator_id) VALUES(:question, :answer, :author,:administratorId)";
 		template.update(insertSql, param);
 	}
 
 	/*
-	 * クイズ一覧の表示 登録日時を作りたい
+	 * クイズ一覧の表示() 登録日時を作りたい
 	 */
 	public List<Quiz> list() {
 		String listSql = "SELECT * FROM quiz ORDER BY id";
 		List<Quiz> list = template.query(listSql, QUIZ_ROW_MAPPER);
 		return list;
 	}
+	
+	/*
+	 * クイズ一覧(自分が投稿したクイズのみを表示)
+	 * 
+	*/
+	
+	public List<Quiz> myList(Integer id){
+		String myListSql = "SELECT q.id,q.question,q.answer,q.author,q.administrator_id,"
+				           + " r.id"
+				           + " FROM quiz as q"
+				           + " INNER JOIN register as r"
+				           + " ON q.administrator_id=r.id"
+				          //+" WHERE q.administrator_id=:administratorId";
+				           + " WHERE r.id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id",id);
+		List<Quiz> myList = template.query(myListSql, param, QUIZ_ROW_MAPPER);
+		return myList;
+	} 
 
 	/*
 	 * 編集機能 １件を取得してくる
@@ -77,7 +95,7 @@ public class QuizRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(deleteSql, param);
 	}
-	
+
 	/*
 	 * ランダムでクイズを取得
 	 */
