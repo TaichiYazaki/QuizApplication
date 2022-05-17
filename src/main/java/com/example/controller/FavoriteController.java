@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.example.domain.Favorite;
 import com.example.domain.LoginUser;
-import com.example.domain.Quiz;
 import com.example.service.FavoriteService;
 import com.example.service.QuizService;
 

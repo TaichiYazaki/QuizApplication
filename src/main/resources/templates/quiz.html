@@ -7,10 +7,7 @@
 </head>
 
 <h1>○×Quiz</h1>
-<<<<<<< HEAD
 <h4 th:object="${#authentication.principal.register}" th:text="|Welcome *{name} !! | " style="color: orange;"></h4>
-=======
->>>>>>> 28979ffc248fc9a0d31344217d67b728ef4c1038
 <h3 th:text="${title}">タイトル</h3>
 <span th:text="${PleaseFillInTheBlanks}" style=color:red>msg</span>
 <form th:action="${quizForm.newQuiz}? @{/quiz/insert} : @{/quiz/update}" th:object="${quizForm}" method="POST">
