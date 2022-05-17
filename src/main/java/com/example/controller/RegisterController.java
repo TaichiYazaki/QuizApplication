@@ -22,7 +22,7 @@ import com.example.service.RegisterService;
 @RequestMapping("/administrator")
 public class RegisterController {
 
-	// セッションを使うための設定
+	//セッションを使うための設定
 	@Autowired
 	private HttpSession session;
 	@Autowired
@@ -44,36 +44,48 @@ public class RegisterController {
 	/*
 	 * アカウントの登録
 	 */
-	@RequestMapping("/insert")
-	public String insert(RegisterForm registerForm, Model model) {
-
-		// 空欄で検索した場合 & emailが既に登録されている時の処理
-		if (registerForm.getName().isEmpty()
-				|| registerForm.getEmail().isEmpty()
-				|| registerForm.getPassword().isEmpty()
-				|| registerForm.getConfirmPassword().isEmpty()) {
-			model.addAttribute("blanksMsg", "Please fill in the blanks...");
-			return "register";
-		} else if (!(registerService.findEmail(registerForm.getEmail()).isEmpty())) {
-			model.addAttribute("emailMsg", "email already in use...");
-			return "register";
-		} else if (!(registerForm.getPassword().equals(registerForm.getConfirmPassword()))) {
-			model.addAttribute("passwordMsg", "password and confirmPassword are incorect...");
-			return "register";
-		}
-		// emailがDBにまだ登録されていない時の処理
-		Register register = new Register();
-		register.setName(registerForm.getName());
-		register.setEmail(registerForm.getEmail());
-		register.setPassword(registerForm.getPassword());
-		register.setConfirmPassword(registerForm.getConfirmPassword());
+	/*@RequestMapping("/insert")
+	public String insert(RegisterForm form) {
+	//アカウントの登録(名前、メールアドレス、パスワード)　idは自動採番
+		Register findEmail =registerService.findEmail(form.getEmail());
+		if(form.getEmail().equals(findEmail.getEmail())) {
+			return "redirect:/administrator/register";
+		}else {
+		Register register =new Register();
+		register.setName(form.getName());
+		register.setEmail(form.getEmail());
+		register.setPassword(form.getPassword());
+		
 		registerService.insert(register);
-		// idの取得
-		Register registerId = registerService.findAccount(registerForm.getEmail(), registerForm.getPassword());
+		
+		//idの取得
+		Register registerId = registerService.findAccount(form.getEmail(), form.getPassword());
 		session.setAttribute("session", registerId);
-		return "redirect:/quiz/myList?id=" + registerId.getId();
+		
+		return "redirect:/quiz/myList?id="+registerId.getId();
+	}*/
+	
+	@RequestMapping("/insert")
+	public String insert(RegisterForm form) {
+	//アカウントの登録(名前、メールアドレス、パスワード)　idは自動採番
+		/*Register findEmail =registerService.findEmail(form.getEmail());
+		if(form.getEmail().equals(findEmail.getEmail())) {
+			return "redirect:/administrator/register";
+		}else {*/
+		Register register =new Register();
+		register.setName(form.getName());
+		register.setEmail(form.getEmail());
+		register.setPassword(form.getPassword());
+		
+		registerService.insert(register);
+		
+		//idの取得
+		Register registerId = registerService.findAccount(form.getEmail(), form.getPassword());
+		session.setAttribute("session", registerId);
+		
+		return "redirect:/quiz/myList?id="+registerId.getId();
 	}
-
+	
 	/*
 	 * ログイン画面の表示
 	 */
@@ -88,6 +100,7 @@ public class RegisterController {
 	@RequestMapping("/login")
 	public String login(RegisterForm form, Model model, LoginUser loginUser) {
 		Register register = registerService.findAccount(form.getEmail(), form.getPassword());
+		
 		if (register == null) {
 			model.addAttribute("msg", "Not Collect email or password...");
 			return "forward:/administrator/loginMenu";

@@ -9,21 +9,17 @@
 <body>
 	<h1>「「○×」Quiz：Register</h1>
 	<form th:action="@{/administrator/insert}" th:object="${registerForm}" method="POST">
-	<span th:text="${blanksMsg}" style="color: red;">msg</span><br>
 		name:<br>
 		<input type="text" th:field="*{name}"><br>
-		<span th:text="${emailMsg}" style="color: red;">msg</span><br>
 		email:<br>
 		<input type="text" th:field="*{email}"><br>
-		<div id="duplicateMessage" style="color: red;"></div><br>
-		<span th:text="${passwordMsg}" style="color: red;">msg</span><br>
 		password:<br>
-		<input type="password" th:field="*{password}" name="password"><br>
+		<input type="password" th:field="*{password}" id="password"><br>
 		confirmPassword:<br>
-		<input type="password" id="confirmPassword" name="confirmPassword"><br>
+		<input type="password" id="password"><br>
 		<button type="submit">register</button>
 	</form>
-	<a th:href="@{/administrator/loginMenu}">login</a>
+	<a th:href="@{/administrator/login}">login</a>
 	<script th:src="@{/jquery-3.6.0.min}"></script>
 	<script th:src="@{/register.js}"></script>
 </body>

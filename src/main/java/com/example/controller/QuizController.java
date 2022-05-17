@@ -105,8 +105,7 @@ public class QuizController {
 	public String update(QuizForm quizForm, Model model) {
 		if (quizForm.getQuestion().isEmpty() || quizForm.getAnswer() == null || quizForm.getAuthor().isEmpty()) {
 			model.addAttribute("PleaseFillInTheBlanks", "Please Fill In The Blanks");
-			// return "redirect:/quiz/detail?id="+quizForm.getId();
-			return "forward:/quiz/detail?id=" + quizForm.getId();
+			return "forward:/quiz/detail?id="+quizForm.getId();
 		}
 		Quiz quiz = quizService.load(quizForm.getId());
 		quiz.setQuestion(quizForm.getQuestion());
