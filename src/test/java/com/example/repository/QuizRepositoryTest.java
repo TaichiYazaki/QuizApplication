@@ -30,6 +30,7 @@ class QuizRepositoryTest {
 		quiz.setQuestion("イギリスの首都は、「ロンドン」である");
 		quiz.setAnswer(true);
 		quiz.setAuthor("taichi");
+		quiz.setAdministratorId(92);
 		quizRepository.insert(quiz);
 		System.out.println("success-to-insert");
 		System.out.println("DB-insert-finish");

@@ -4,6 +4,7 @@ package com.example.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,14 @@ public class RegisterService {
 	@Autowired
 	private RegisterRepository registerRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	/*
 	 * アカウント登録処理
 	 */
-	public void insert(Register register) {
-		registerRepository.insert(register);
+	public Register insert(Register register) {
+		register.setPassword(passwordEncoder.encode(register.getPassword()));
+		return registerRepository.insert(register);
 	}
 	/*
 	 * ログイン処理

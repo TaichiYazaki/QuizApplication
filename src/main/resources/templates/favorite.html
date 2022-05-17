@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<title>○×Quiz</title>
+</head>
+
+<body>
+	<h1>○×Quiz</h1>
+	<h3>Favorites list</h3>
+	<table th:unless="${#lists.isEmpty(favoriteList)}" border="1" style="table-layout: fixed;">
+		<tr>
+			<th>Question</th>
+			<th>Answer</th>
+			<th>Author</th>
+			<th>Delete</th>
+		</tr>
+		<tr th:each="obj : ${favoriteList}" align="center">
+			<td th:text="${obj.quiz.question}" align="left"></td>
+			<td th:text="${obj.quiz.answer} == true?'○':'×'"></td>
+			<td th:text="${obj.quiz.author}"></td>
+			<td>
+				<form th:action="@{/favorite/favoriteDelete?favoriteId=}+${obj.favoriteId}" method="POST">
+					<input type="submit" value="delete">
+				</form>
+			</td>
+		</tr>
+	</table>
+	<p th:if="${#lists.isEmpty(favoriteList)}">You haven't added Favorite list yet</p>
+	<h3>Main menu：<a th:href="@{/quiz/myList}">Click here</a><br></h3>
+</body>
+
+</html>

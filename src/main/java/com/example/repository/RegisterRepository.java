@@ -2,6 +2,7 @@ package com.example.repository;
 
 import java.util.List;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -31,10 +32,11 @@ public class RegisterRepository {
 	/*
 	 * アカウントの登録
 	 */
-	public void insert(Register register) {
+	public Register insert(Register register) {
 		String insertSql = "INSERT INTO register(name, email, password,confirm_password) VALUES(:name, :email, :password,:confirmPassword)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(register);
 		template.update(insertSql, param);
+		return register;
 	}
 
 	public List<Register> findEmail(String email) {
@@ -45,15 +47,25 @@ public class RegisterRepository {
 	}
 
 	// アカウントの取得
-	public Register findAccount(String email, String password) {
-		String findAccountSql = "SELECT * FROM register WHERE email=:email AND password=:password";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("password", password).addValue("email", email);
+	public Register findByMailAddress(String email) {
+		String findAccountSql = "SELECT * FROM register WHERE email=:email";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 		List<Register> registerList = template.query(findAccountSql, param, REGISTER_ROW_MAPPER);
 		if (registerList.size() == 0) {
 			return null;
-		} else {
-			return registerList.get(0);
 		}
+		return registerList.get(0);
+
 	}
 
+	public Register findAccount(String email, String password) {
+		String findAccountSql = "SELECT * FROM register WHERE email=:email AND WHERE password=:password";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email).addValue("password", password);
+		List<Register> registerList = template.query(findAccountSql, param, REGISTER_ROW_MAPPER);
+		if (registerList.size() == 0) {
+			return null;
+		}
+		return registerList.get(0);
+
+	}
 }

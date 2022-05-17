@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.domain.LoginUser;
 import com.example.domain.Register;
 import com.example.form.RegisterForm;
 import com.example.service.RegisterService;
@@ -47,18 +48,17 @@ public class RegisterController {
 	public String insert(RegisterForm registerForm, Model model) {
 
 		// 空欄で検索した場合 & emailが既に登録されている時の処理
-		if (registerForm.getName().isEmpty() 
+		if (registerForm.getName().isEmpty()
 				|| registerForm.getEmail().isEmpty()
 				|| registerForm.getPassword().isEmpty()
-			    || registerForm.getConfirmPassword().isEmpty())
-			    {
-			model.addAttribute("blanksMsg","Please fill in the blanks...");
+				|| registerForm.getConfirmPassword().isEmpty()) {
+			model.addAttribute("blanksMsg", "Please fill in the blanks...");
 			return "register";
-		}else if( !(registerService.findEmail(registerForm.getEmail()).isEmpty())){
-			model.addAttribute("emailMsg","email already in use...");
+		} else if (!(registerService.findEmail(registerForm.getEmail()).isEmpty())) {
+			model.addAttribute("emailMsg", "email already in use...");
 			return "register";
-		}else if(!(registerForm.getPassword().equals(registerForm.getConfirmPassword()))) {
-			model.addAttribute("passwordMsg","password and confirmPassword are incorect...");
+		} else if (!(registerForm.getPassword().equals(registerForm.getConfirmPassword()))) {
+			model.addAttribute("passwordMsg", "password and confirmPassword are incorect...");
 			return "register";
 		}
 		// emailがDBにまだ登録されていない時の処理
@@ -67,7 +67,7 @@ public class RegisterController {
 		register.setEmail(registerForm.getEmail());
 		register.setPassword(registerForm.getPassword());
 		register.setConfirmPassword(registerForm.getConfirmPassword());
-		registerService.insert(register); 
+		registerService.insert(register);
 		// idの取得
 		Register registerId = registerService.findAccount(registerForm.getEmail(), registerForm.getPassword());
 		session.setAttribute("session", registerId);
@@ -86,18 +86,17 @@ public class RegisterController {
 	 * ログイン処理
 	 */
 	@RequestMapping("/login")
-	public String login(RegisterForm form, Model model) {
+	public String login(RegisterForm form, Model model, LoginUser loginUser) {
 		Register register = registerService.findAccount(form.getEmail(), form.getPassword());
-
 		if (register == null) {
 			model.addAttribute("msg", "Not Collect email or password...");
 			return "forward:/administrator/loginMenu";
 		} else {
 			model.addAttribute("register", register);
 			session.setAttribute("session", register);
-			return "redirect:/quiz/myList?id=" + register.getId();
-		}
+			return "redirect:/quiz/myList";
 
+		}
 	}
 
 	/*

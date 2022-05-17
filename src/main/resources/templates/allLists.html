@@ -25,29 +25,32 @@
 				<th>Question</th>
 				<th>Answer</th>
 				<th>Author</th>
+				<th>Favorite</th>
 			</tr>
 			<tr th:each="obj : ${list}" align="center">
 				<td th:text="${obj.question}" align="left"></td>
 				<td th:text="${obj.answer} == true?'○':'×'"></td>
 				<td th:text="${obj.author}"></td>
+				<td>
+					<form th:action="@{/favorite/favoriteAdd?id=}+${obj.id}" method="POST">
+						<input type="submit" value="add">
+					</form>
+				</td>
 			</tr>
 		</table>
 	</div>
-	<form th:action="@{/quiz/play?id=}+${id}" th:object=${registerForm}>
-		<strong> Challenge： </strong>
-		<input type="hidden" th:field="*{id}">
-		<input type="submit" value="Play">
-	</form>
-	<h3>Main menu：<a th:href="@{/quiz/myList?id=}+${id}">Click here</a><br></h3>
+	<h3>Challenge：<a th:href="@{/quiz/play}">Click here</a><br></h3>
+	<h3>Main menu：<a th:href="@{/quiz/myList}">Click here</a><br></h3>
+	<h3>Favorites list：<a th:href="@{/favorite/favoriteList}">Click here</a><br></h3>
 	<!--△△△　クイズ情報が１件でもあれば表示 △△△-->
 
 	<!--▼▼▼　クイズ情報が１件もない場合表示 ▼▼▼-->
-	<p th:if="${#lists.isEmpty(list)}">登録されているクイズはありません</p>
+	<p th:if="${#lists.isEmpty(list)}">You haven't added quiz yet</p>
 	<!--△△△　クイズ情報が１件もない場合表示　△△△-->
 
 	<!--▼▼▼　新規登録時でない時に表示 ▼▼▼-->
 	<h3 th:unless="${quizForm.newQuiz}">
-		Main menu:<a th:href="@{/quiz/myList?id=}+${session.session.id}">Click here</a>
+		Main menu:<a th:href="@{/quiz/myList}">Click here</a>
 	</h3>
 
 	<!--△△△　新規登録時出ない時に表示 △△△-->

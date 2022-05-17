@@ -104,4 +104,8 @@ public class QuizRepository {
 		List<Quiz> quiz = template.query(randSql, QUIZ_ROW_MAPPER);
 		return quiz;
 	}
+
+	/**
+	 * 
+	 */
 }

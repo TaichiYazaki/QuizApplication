@@ -10,7 +10,7 @@
 	<h1>「○×」Quiz：Answer</h1>
 	<h2 th:text="${msg}" style="color: red;">メッセージ表示領域</h2>
 	<a th:href="@{/quiz/play}">Replay</a><br>
-	<a th:href="@{/quiz/myList?id=}+${session.session.id}">Return Main</a>
+	<a th:href="@{/quiz/myList}">Return Main</a>
 </body>
 
 </html>
