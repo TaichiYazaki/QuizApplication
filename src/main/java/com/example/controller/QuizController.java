@@ -85,7 +85,6 @@ public class QuizController {
 
 	/*
 	 * クイズを編集する処理
-	 * QuizForm form → QuizForm quizFormへ変更
 	 */
 	@RequestMapping("/detail")
 	public String detail(QuizForm quizForm, Model model) {

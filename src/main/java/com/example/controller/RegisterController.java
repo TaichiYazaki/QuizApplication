@@ -41,37 +41,13 @@ public class RegisterController {
 		return "register";
 	}
 
-	/*
-	 * アカウントの登録
+	/**
+	 * 
+	 * アカウントを登録する機能
 	 */
-	/*@RequestMapping("/insert")
-	public String insert(RegisterForm form) {
-	//アカウントの登録(名前、メールアドレス、パスワード)　idは自動採番
-		Register findEmail =registerService.findEmail(form.getEmail());
-		if(form.getEmail().equals(findEmail.getEmail())) {
-			return "redirect:/administrator/register";
-		}else {
-		Register register =new Register();
-		register.setName(form.getName());
-		register.setEmail(form.getEmail());
-		register.setPassword(form.getPassword());
-		
-		registerService.insert(register);
-		
-		//idの取得
-		Register registerId = registerService.findAccount(form.getEmail(), form.getPassword());
-		session.setAttribute("session", registerId);
-		
-		return "redirect:/quiz/myList?id="+registerId.getId();
-	}*/
-	
 	@RequestMapping("/insert")
 	public String insert(RegisterForm form) {
-	//アカウントの登録(名前、メールアドレス、パスワード)　idは自動採番
-		/*Register findEmail =registerService.findEmail(form.getEmail());
-		if(form.getEmail().equals(findEmail.getEmail())) {
-			return "redirect:/administrator/register";
-		}else {*/
+	
 		Register register =new Register();
 		register.setName(form.getName());
 		register.setEmail(form.getEmail());
@@ -92,6 +68,14 @@ public class RegisterController {
 	@RequestMapping("/loginMenu")
 	public String loginMenu() {
 		return "/login";
+	}
+
+	/**
+	 * ログアウト機能
+	 */
+	@RequestMapping("/logout")
+	public String logout(){
+		return "redirect:/administrator/loginMenu";
 	}
 
 	/*

@@ -8,6 +8,7 @@
 
 <h1>○×Quiz</h1>
 <h4 th:object="${#authentication.principal.register}" th:text="|Welcome *{name} !! | " style="color: orange;"></h4>
+<a th:href="@{/administrator/logout}">logout</a>
 <h3 th:text="${title}">タイトル</h3>
 <span th:text="${PleaseFillInTheBlanks}" style=color:red>msg</span>
 <form th:action="${quizForm.newQuiz}? @{/quiz/insert} : @{/quiz/update}" th:object="${quizForm}" method="POST">
@@ -21,22 +22,8 @@
 	<input type="submit" value="submit">
 </form>
 <hr>
-<!--更新用のクイズを表示する詳細画面
-<div thif="${title.equals('Update Form')}">
-	Question:
-	<span th:text="${myList.question}"></span><br>
-	Answer:
-	<span th:if="${myList.answer == true}">
-		<span>「○」</span>
-	</span>
-	<span th:if="${myList.answer == false}">
-		<span>「×」</span>
-	</span><br>
-	Author:
-	<span th:text="${myList.author}"></span>
-</div>-->
 <!-------------------------------------　ここまで上部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
-    <!-------------------------------------　ここから下部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
+<!-------------------------------------　ここから下部エリア　ーーーーーーーーーーーーーーーーーーーーーー>
 　 　<!--▼▼▼　新規登録時のみ表示　▼▼▼-->
 <div th:if="${quizForm.newQuiz}" style="margin: 10px">
 
