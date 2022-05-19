@@ -8,7 +8,8 @@
 
 <body>
 	<h1>「「○×」Quiz：Register</h1>
-	<span th:text="${msg}" style="color: red;"></span><br>
+	<span th:text="${msg}" style="color: rgb(255, 0, 0);"></span><br>
+	<div id="duplicateMessage" style="color: rgb(255, 0, 0);"></div>
 	<form th:action="@{/administrator/insert}" th:object="${registerForm}" method="POST">
 		name:<br>
 		<input type="text" th:field="*{name}"><br>
@@ -17,12 +18,13 @@
 		password:<br>
 		<input type="password" th:field="*{password}" id="password"><br>
 		confirmPassword:<br>
-		<input type="password" name="confirmPassword" id="password"><br>
+		<input type="password" name="confirmPassword" id="confirmPassword"><br>
 		<button type="submit">register</button>
 	</form>
 	<a th:href="@{/administrator/loginMenu}">login</a>
-	<script th:src="@{/jquery-3.6.0.min}"></script>
+	<script th:src="@{/jquery-3.6.0.min.js}"></script>
 	<script th:src="@{/register.js}"></script>
 </body>
-
+<meta th:name="_csrf" th:content="${_csrf.token}"/>
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
 </html>

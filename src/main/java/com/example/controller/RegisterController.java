@@ -48,7 +48,8 @@ public class RegisterController {
 	@RequestMapping("/insert")
 	public String insert(RegisterForm form, Model model) {
 		if (form.getName().isEmpty() || form.getEmail().isEmpty() || form.getPassword().isEmpty()) {
-			return "redirect:/administrator/register";
+			model.addAttribute("msg", "Please fill in the blanks...");
+			return "forward:/administrator/register";
 		} else {
 
 			Register register = new Register();
