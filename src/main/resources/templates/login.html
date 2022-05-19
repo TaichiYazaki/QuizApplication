@@ -9,8 +9,9 @@
 <body>
 	<h1>「○×」Quiz：Login</h1>
 
+	<span th:text="${msg1}" style="color: red;"></span><br>
+	<span th:text="${msg2}" style="color: red;"></span><br>
 	<form th:action="@{/administrator/login}" th:object="${registerForm}" method="POST">
-		<span th:text="${msg}" style="color: red;"></span><br>
 		<div id="duplicateMessage" style="color: red;"></div>
 		email:<br>
 		<input type="text" th:field="*{email}"><br>

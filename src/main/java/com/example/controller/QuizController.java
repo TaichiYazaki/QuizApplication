@@ -57,10 +57,7 @@ public class QuizController {
 	public String myList(Model model, QuizForm qform, @AuthenticationPrincipal LoginUser loginUser) {
 		qform.setNewQuiz(true);
 		List<Quiz> myList = quizService.myList(loginUser.getRegister().getId());
-		model.addAttribute("id", qform.getId());
 		model.addAttribute("myList", myList);
-		model.addAttribute("title", "Register Form");
-		model.addAttribute("quizForm", qform);
 		return "quiz";
 	}
 

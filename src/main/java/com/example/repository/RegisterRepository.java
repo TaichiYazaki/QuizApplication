@@ -2,7 +2,6 @@ package com.example.repository;
 
 import java.util.List;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -32,7 +31,7 @@ public class RegisterRepository {
 	 * アカウントの登録
 	 */
 	public Register insert(Register register) {
-		String insertSql = "INSERT INTO register(name, email, password,confirm_password) VALUES(:name, :email, :password,:confirmPassword)";
+		String insertSql = "INSERT INTO register(name, email, password) VALUES(:name, :email, :password)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(register);
 		template.update(insertSql, param);
 		return register;

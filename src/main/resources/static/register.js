@@ -8,6 +8,7 @@ $(function() {
 			data: {
 				confirmPassword: $("#confirmPassword").val(),
 				password:$("#password").val()
+				//_csrf: $("*[name=_csrf]").val()  // CSRFトークンを送信
 			},
 			async: true,
 		}).done(function(data) {

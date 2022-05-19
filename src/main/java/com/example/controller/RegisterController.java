@@ -22,7 +22,7 @@ import com.example.service.RegisterService;
 @RequestMapping("/administrator")
 public class RegisterController {
 
-	//セッションを使うための設定
+	// セッションを使うための設定
 	@Autowired
 	private HttpSession session;
 	@Autowired
@@ -46,17 +46,22 @@ public class RegisterController {
 	 * アカウントを登録する機能
 	 */
 	@RequestMapping("/insert")
-	public String insert(RegisterForm form) {
-	
-		Register register =new Register();
-		register.setName(form.getName());
-		register.setEmail(form.getEmail());
-		register.setPassword(form.getPassword());
-		
-		registerService.insert(register);
-		return "redirect:/quiz/myList";
+	public String insert(RegisterForm form, Model model) {
+		if (form.getName().isEmpty() || form.getEmail().isEmpty() || form.getPassword().isEmpty()) {
+			return "redirect:/administrator/register";
+		} else {
+
+			Register register = new Register();
+			register.setName(form.getName());
+			register.setEmail(form.getEmail());
+			register.setPassword(form.getPassword());
+			registerService.insert(register);
+			model.addAttribute("msg1", "Complete to register your account!!");
+			model.addAttribute("msg2", "Please log in!!");
+			return "forward:/administrator/loginMenu";
+		}
 	}
-	
+
 	/*
 	 * ログイン画面の表示
 	 */
@@ -69,7 +74,7 @@ public class RegisterController {
 	 * ログアウト機能
 	 */
 	@RequestMapping("/logout")
-	public String logout(){
+	public String logout() {
 		return "redirect:/administrator/loginMenu";
 	}
 
@@ -79,7 +84,7 @@ public class RegisterController {
 	@RequestMapping("/login")
 	public String login(RegisterForm form, Model model, LoginUser loginUser) {
 		Register register = registerService.findAccount(form.getEmail(), form.getPassword());
-		
+
 		if (register == null) {
 			model.addAttribute("msg", "Not Collect email or password...");
 			return "forward:/administrator/loginMenu";

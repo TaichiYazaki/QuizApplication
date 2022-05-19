@@ -8,6 +8,7 @@
 
 <body>
 	<h1>「「○×」Quiz：Register</h1>
+	<span th:text="${msg}" style="color: red;"></span><br>
 	<form th:action="@{/administrator/insert}" th:object="${registerForm}" method="POST">
 		name:<br>
 		<input type="text" th:field="*{name}"><br>
@@ -16,7 +17,7 @@
 		password:<br>
 		<input type="password" th:field="*{password}" id="password"><br>
 		confirmPassword:<br>
-		<input type="password" id="password"><br>
+		<input type="password" name="confirmPassword" id="password"><br>
 		<button type="submit">register</button>
 	</form>
 	<a th:href="@{/administrator/loginMenu}">login</a>

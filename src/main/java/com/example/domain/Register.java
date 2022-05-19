@@ -6,7 +6,6 @@ public class Register {
 	private String name;
 	private String email;
 	private String password;
-	
 	public Integer getId() {
 		return id;
 	}
@@ -33,8 +32,7 @@ public class Register {
 	}
 	@Override
 	public String toString() {
-		return "Register [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
+		return "Register [email=" + email + ", id=" + id + ", name=" + name + ", password=" + password + "]";
 	}
-	
 	
 }
