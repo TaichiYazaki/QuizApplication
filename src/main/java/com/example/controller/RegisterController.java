@@ -54,12 +54,7 @@ public class RegisterController {
 		register.setPassword(form.getPassword());
 		
 		registerService.insert(register);
-		
-		//idの取得
-		Register registerId = registerService.findAccount(form.getEmail(), form.getPassword());
-		session.setAttribute("session", registerId);
-		
-		return "redirect:/quiz/myList?id="+registerId.getId();
+		return "redirect:/quiz/myList";
 	}
 	
 	/*

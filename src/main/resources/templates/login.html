@@ -12,11 +12,9 @@
 	<form th:action="@{/administrator/login}" th:object="${registerForm}" method="POST">
 		<span th:text="${msg}" style="color: red;"></span><br>
 		<div id="duplicateMessage" style="color: red;"></div>
-		<div id="duplicateMessage1" style="color: red;"></div>
 		email:<br>
 		<input type="text" th:field="*{email}"><br>
 		password:<br>
-		<!--<input type="password" th:field="*{password}" id="password" name="password"><br>-->
 		<input type="password" id="password" name="password"><br>
 		confirmPassword:<br>
 		<input type="password" id="confirmPassword" name="confirmPassword"><br>
