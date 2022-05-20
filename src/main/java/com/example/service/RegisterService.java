@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import com.example.domain.Register;
 import com.example.repository.RegisterRepository;
 
@@ -20,6 +22,7 @@ public class RegisterService {
 	private PasswordEncoder passwordEncoder;
 	/*
 	 * アカウント登録処理
+	 * (Spring Security利用中)
 	 */
 	public Register insert(Register register) {
 		register.setPassword(passwordEncoder.encode(register.getPassword()));
@@ -32,10 +35,11 @@ public class RegisterService {
 		return registerRepository.findAccount(email, password);
 	}
 	
-	/*
-	 * メールアドレスが既にDBに登録されているか確認
+	/** 
+	 * メールアドレスからユーザー情報の検索処理
+	 * (メールアドレス重複確認)
 	 */
-	public Register findEmail(String email) {
+	public List<Register> findEmail(String email) {
 		return registerRepository.findEmail(email);
 	}
 }

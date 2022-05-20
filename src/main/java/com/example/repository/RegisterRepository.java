@@ -37,18 +37,15 @@ public class RegisterRepository {
 		return register;
 	}
 
-	/*
-	 * メールアドレスが既にDBに登録されているか確認
+	/** 
+	 * メールアドレスからユーザー情報の検索処理
+	 * 
 	 */
-	public Register findEmail(String email) {
+	public List<Register> findEmail(String email) {
 		String findEmailSql = "SELECT * FROM register WHERE email=:email";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 		List<Register> registerList = template.query(findEmailSql, param, REGISTER_ROW_MAPPER);
-		if (registerList.size() == 0) {
-			return null;
-		} else {
-			return registerList.get(0);
-		}
+		return registerList;
 	}
 
 	// アカウントの取得
@@ -64,7 +61,7 @@ public class RegisterRepository {
 	}
 
 	public Register findAccount(String email, String password) {
-		String findAccountSql = "SELECT * FROM register WHERE email=:email AND WHERE password=:password";
+		String findAccountSql = "SELECT * FROM register WHERE email=:email AND password=:password";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email).addValue("password", password);
 		List<Register> registerList = template.query(findAccountSql, param, REGISTER_ROW_MAPPER);
 		if (registerList.size() == 0) {

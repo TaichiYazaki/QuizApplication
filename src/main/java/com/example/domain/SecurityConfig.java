@@ -1,6 +1,7 @@
 package com.example.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -30,13 +31,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin() // ログインに関する設定
                 .loginPage("/administrator/loginMenu")
                 .loginProcessingUrl("/administrator/login")
-                .failureUrl("/administrator/loginMenu")
+                .failureUrl("/administrator/loginError")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/quiz/myList", true);
     }
 
-    // パスワードエンコーダーの設定
+    /**
+     * 
+     *パスワードエンコーダーの設定
+     *(ハッシュ化に必要な作業)
+    */ 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

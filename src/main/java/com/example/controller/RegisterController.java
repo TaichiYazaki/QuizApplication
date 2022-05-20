@@ -3,7 +3,6 @@ package com.example.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.domain.LoginUser;
 import com.example.domain.Register;
 import com.example.form.RegisterForm;
 import com.example.service.RegisterService;
@@ -22,9 +20,6 @@ import com.example.service.RegisterService;
 @RequestMapping("/administrator")
 public class RegisterController {
 
-	// セッションを使うための設定
-	@Autowired
-	private HttpSession session;
 	@Autowired
 	public RegisterService registerService;
 
@@ -33,8 +28,9 @@ public class RegisterController {
 		return new RegisterForm();
 	}
 
-	/*
+	/** 
 	 * 登録画面の表示
+	 * 
 	 */
 	@RequestMapping("/register")
 	public String register() {
@@ -42,16 +38,26 @@ public class RegisterController {
 	}
 
 	/**
-	 * 
-	 * アカウントを登録する機能
+	 *  アカウントをDBへ登録
+	 *
 	 */
 	@RequestMapping("/insert")
-	public String insert(RegisterForm form, Model model) {
+	public String insert(RegisterForm form, String confirmPassword, Model model) {
+
+		//名前、メールアドレス、パスワードのどれかが空欄で送信されたら登録画面を再度表示
 		if (form.getName().isEmpty() || form.getEmail().isEmpty() || form.getPassword().isEmpty()) {
 			model.addAttribute("msg", "Please fill in the blanks...");
 			return "forward:/administrator/register";
-		} else {
-
+		//パスワードと確認用パスワードが一致しなければ、登録画面を再度表示
+		} else if (!(form.getPassword().equals(confirmPassword))) {
+			model.addAttribute("msg", "Not collect password and confirmPassword...");
+			return "forward:/administrator/register";
+		//メールアドレスが既にDBへ登録されていれば、登録画面を再度表示
+		} else if(! registerService.findEmail(form.getEmail()).isEmpty()){
+			model.addAttribute("msg", "Already exist this email...");
+			return "forward:/administrator/register";
+		//DBへアカウント情報を登録する処理
+		}else {
 			Register register = new Register();
 			register.setName(form.getName());
 			register.setEmail(form.getEmail());
@@ -63,8 +69,9 @@ public class RegisterController {
 		}
 	}
 
-	/*
+	/** 
 	 * ログイン画面の表示
+	 * 
 	 */
 	@RequestMapping("/loginMenu")
 	public String loginMenu() {
@@ -72,33 +79,27 @@ public class RegisterController {
 	}
 
 	/**
+	 * ログインエラー表示
+	 *(メールアドレス、パスワードが違う時)
+	 */
+	@RequestMapping("/loginError")
+	public String login(Model model) {
+		model.addAttribute("iserror", true);
+		return "forward:/administrator/loginMenu";
+	}
+
+	/**
 	 * ログアウト機能
+	 * 
 	 */
 	@RequestMapping("/logout")
 	public String logout() {
 		return "redirect:/administrator/loginMenu";
 	}
 
-	/*
-	 * ログイン処理
-	 */
-	@RequestMapping("/login")
-	public String login(RegisterForm form, Model model, LoginUser loginUser) {
-		Register register = registerService.findAccount(form.getEmail(), form.getPassword());
-
-		if (register == null) {
-			model.addAttribute("msg", "Not Collect email or password...");
-			return "forward:/administrator/loginMenu";
-		} else {
-			model.addAttribute("register", register);
-			session.setAttribute("session", register);
-			return "redirect:/quiz/myList";
-
-		}
-	}
-
-	/*
+	/** 
 	 * パスワード重複確認
+	 * 
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/passwordCheck", method = RequestMethod.POST)

@@ -11,13 +11,14 @@
 
 	<span th:text="${msg1}" style="color: red;"></span><br>
 	<span th:text="${msg2}" style="color: red;"></span><br>
+	<div th:if="${iserror}" style="color:red;">
+		<p>Not collect email or password...</p>
+	</div>
 	<form th:action="@{/administrator/login}" th:object="${registerForm}" method="POST">
 		email:<br>
-		<input type="text" th:field="*{email}"><br>
+		<input type="text" name="email"><br>
 		password:<br>
-		<input type="password" id="password" name="password"><br>
-		confirmPassword:<br>
-		<input type="password" id="confirmPassword" name="confirmPassword"><br>
+		<input type="password" name="password"><br>
 		<button type="submit">login</button>
 	</form>
 	<a th:href="@{/administrator/register}">register new account</a>
